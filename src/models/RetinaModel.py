@@ -107,8 +107,8 @@ class RetinaModel():
                     running_loss += loss.item() * inputs.size(0)
                     running_corrects += torch.sum(preds == labels.data)
 
-                epoch_loss = running_loss / len(dataloaders[phase].dataset)
-                epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
+                epoch_loss = running_loss / len(dataloaders[phase].dataset) if len(dataloaders[phase].dataset) else running_loss
+                epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset) if len(dataloaders[phase].dataset) else running_loss
 
                 print('{} Loss: {:.4f} Acc: {:.4f}'.format(phase, epoch_loss, epoch_acc))
 

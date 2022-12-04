@@ -76,7 +76,7 @@ class Experiment():
         weight_per_class = [0.] * nclasses                                      
         N = float(sum(count))                                                  
         for i in range(nclasses):                                                   
-            weight_per_class[i] = N/float(count[i])                                 
+            weight_per_class[i] = N/float(count[i]) if count[i] else 0                                 
         weight = [0] * len(images)                                              
         for idx, val in enumerate(images):                                          
             weight[idx] = weight_per_class[val]                                  
@@ -127,7 +127,7 @@ class Experiment():
             self.results_dict[key].append(value)
 
     def save_results(self):
-        self.results_dict = {key, val.cpu() for key, val in self.results_dict.items()}
+        # self.results_dict = {key, val.cpu() for key, val in self.results_dict.items()}
         pd.DataFrame(self.results_dict).to_pickle(os.path.join(self.results_dir, f'Experiment_{self.experiment_name}.pckl'))
 
     def set_parameter_requires_grad(self, model, feature_extracting):
@@ -243,7 +243,10 @@ class Experiment():
         # Create weighted random sampler for imbalanced dataset
         weights = self.make_weights_for_balanced_classes(label_file.iloc[:, label_num], 2)                                                                
         weights = torch.DoubleTensor(weights)
-        sampler = WeightedRandomSampler(weights, len(weights))  
+        try:
+            sampler = WeightedRandomSampler(weights, len(weights))  
+        except:
+            sampler = None
         # Instantiate Datset
         rd = RetinaDataset(labels=label_file,
                             data_dir=self.data_dir.format(name, name.lower()),
