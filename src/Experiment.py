@@ -127,6 +127,7 @@ class Experiment():
             self.results_dict[key].append(value)
 
     def save_results(self):
+        self.results_dict = {key, val.cpu() for key, val in self.results_dict.items()}
         pd.DataFrame(self.results_dict).to_pickle(os.path.join(self.results_dir, f'Experiment_{self.experiment_name}.pckl'))
 
     def set_parameter_requires_grad(self, model, feature_extracting):
