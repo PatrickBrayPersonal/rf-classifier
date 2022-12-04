@@ -156,8 +156,10 @@ class Experiment:
 
     def save_results(self):
         for key, val in self.results_dict.items():
-            if isinstance(val, torch.Tensor):
+            try:
                 self.results_dict[key] = val.cpu()
+            except:
+                pass
         pd.DataFrame(self.results_dict).to_pickle(
             os.path.join(self.results_dir, f"Experiment_{self.experiment_name}.pckl")
         )
