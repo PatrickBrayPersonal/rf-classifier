@@ -22,8 +22,8 @@ import torchvision.transforms as T
 from torchvision.utils import make_grid, save_image
 from torchvision.io import read_image
 
-from RetinaDataset import RetinaDataset
-from RetinaModel import RetinaModel
+from src.data.RetinaDataset import RetinaDataset
+from src.models.RetinaModel import RetinaModel
 
 class Experiment():
     def __init__(self, model_names, data_dir, label_file, results_dir, batch_size, num_epochs, feature_extract, learning_rates, experiment_name, DEBUG):
