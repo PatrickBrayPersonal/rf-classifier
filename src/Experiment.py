@@ -155,7 +155,9 @@ class Experiment:
             self.results_dict[key].append(value)
 
     def save_results(self):
-        # self.results_dict = {key, val.cpu() for key, val in self.results_dict.items()}
+        for key, val in self.results_dict.items():
+            if isinstance(val, torch.Tensor):
+                self.results_dict[key] = val.cpu()
         pd.DataFrame(self.results_dict).to_pickle(
             os.path.join(self.results_dir, f"Experiment_{self.experiment_name}.pckl")
         )
