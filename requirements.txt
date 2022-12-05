@@ -13,6 +13,7 @@ torchvision==0.13.1
 ipython
 matplotlib
 scikit-learn
-
+mlflow
+pyngrok
 # backwards compatibility
 pathlib2
